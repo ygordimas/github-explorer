@@ -21,7 +21,7 @@ function RepositoryList() {
 
   return (
     <section className="repository-list">
-      <h1>Lista de Repositórios</h1>
+      <h1>Repositories List</h1>
 
       <ul>
         {repositories.map((repo) => (

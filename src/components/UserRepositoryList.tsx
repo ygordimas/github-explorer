@@ -3,13 +3,7 @@ import "../styles/repositories.scss";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const ListContainer = styled.div`
-  width: 100%;
-  background-color: antiquewhite;
-  padding: 1rem;
-  border-radius: 1rem;
-  margin: 0.5rem 0;
-`;
+const ListContainer = styled.div``;
 
 const ListHeader = styled.header`
   display: flex;

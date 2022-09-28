@@ -10,24 +10,33 @@ interface Repository {
   url: string;
 }
 
-function RepositoryList() {
+interface RepositoryListProps {
+  name: string;
+}
+
+function RepositoryList({ name }: RepositoryListProps) {
   const [repositories, setRepositories] = useState<Repository[]>([]);
 
   useEffect(() => {
-    fetch("https://api.github.com/orgs/rocketseat/repos")
+    fetch(`https://api.github.com/orgs/${name}/repos`)
       .then((response) => response.json())
       .then((data) => setRepositories(data));
   }, []);
 
   return (
     <section className="repository-list">
-      <h1>Repositories List</h1>
-
-      <ul>
-        {repositories.map((repo) => (
-          <RepositoryItem key={repo.name} repository={repo} />
-        ))}
-      </ul>
+      {Array.isArray(repositories) === false ? (
+        <div>Organization not found.</div>
+      ) : (
+        <>
+          <h1>Repositories List</h1>
+          <ul>
+            {repositories.map((repo) => (
+              <RepositoryItem key={repo.name} repository={repo} />
+            ))}
+          </ul>
+        </>
+      )}
     </section>
   );
 }

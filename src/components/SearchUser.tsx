@@ -30,9 +30,14 @@ const StyledButton = styled.button`
 interface SearchUserProps {
   username: string;
   setUsername: (arg: string) => void;
+  searchType: string;
 }
 
-export function SearchUser({ username, setUsername }: SearchUserProps) {
+export function SearchUser({
+  username,
+  setUsername,
+  searchType,
+}: SearchUserProps) {
   const [usernameInput, setUsernameInput] = useState("");
 
   const handleClear = () => {
@@ -46,7 +51,9 @@ export function SearchUser({ username, setUsername }: SearchUserProps) {
         type="text"
         name="username"
         id="username"
-        placeholder="Insert Git username here"
+        placeholder={`Insert ${
+          searchType === "SearchingForUser" ? "username" : "organization's name"
+        } here`}
         value={usernameInput}
         onChange={(event) => setUsernameInput(event.target.value)}
         onKeyDown={(event) => {

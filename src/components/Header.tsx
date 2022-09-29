@@ -51,8 +51,10 @@ export default function Header({
 }: HeaderProps) {
   const isRadioSelected = (value: string): boolean =>
     selectedRadioInput === value;
-  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void =>
+  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSelectedRadioInput(e.currentTarget.value);
+    setUsername("");
+  };
 
   return (
     <StyledHeader>

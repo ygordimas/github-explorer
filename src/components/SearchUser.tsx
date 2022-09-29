@@ -40,6 +40,11 @@ export function SearchUser({
 }: SearchUserProps) {
   const [usernameInput, setUsernameInput] = useState("");
 
+  //guarantees that input field will be cleared when a different radio button is selected
+  useEffect(() => {
+    setUsernameInput(username);
+  }, [username]);
+
   const handleClear = () => {
     setUsernameInput("");
     setUsername("");

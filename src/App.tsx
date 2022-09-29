@@ -41,7 +41,13 @@ function App() {
         {username ? (
           <RepositoryList name={username} searchType={selectedRadioInput} />
         ) : (
-          <div>Insert valid information</div>
+          <div>
+            A list of the{" "}
+            {selectedRadioInput === "SearchingForUser"
+              ? "user"
+              : "organization"}
+            's repositories will appear here.
+          </div>
         )}
       </Content>
     </>

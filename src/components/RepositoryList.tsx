@@ -79,7 +79,7 @@ RepositoryListProps) {
         .then((response) => response.json())
         .then((data) => setRepositories(data));
     }
-  }, [name, searchType]);
+  }, []);
 
   return (
     <>
@@ -105,7 +105,7 @@ RepositoryListProps) {
       ) : (
         <div>
           We were unable to find an{" "}
-          {searchType === "SearchingforUser" ? "user" : "organization"} named '
+          {searchType === "SearchingForUser" ? "user" : "organization"} named '
           {name}'.
         </div>
       )}

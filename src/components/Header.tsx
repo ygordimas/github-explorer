@@ -8,7 +8,7 @@ const StyledHeader = styled.div`
 
   flex-direction: column;
   padding: 2rem 1rem 1rem;
-  background-color: lavender;
+  background-color: var(--primary);
   max-width: 800px;
   margin: 0 auto;
   border-radius: 0 0 0.5rem 0.5rem;
@@ -41,6 +41,8 @@ interface HeaderProps {
   setUsername: (value: string) => void;
   selectedRadioInput: string;
   setSelectedRadioInput: (value: string) => void;
+  listIsLoading: boolean;
+  setListIsLoading: (value: boolean) => void;
 }
 
 export default function Header({
@@ -48,6 +50,8 @@ export default function Header({
   setUsername,
   selectedRadioInput,
   setSelectedRadioInput,
+  listIsLoading,
+  setListIsLoading,
 }: HeaderProps) {
   const isRadioSelected = (value: string): boolean =>
     selectedRadioInput === value;
@@ -92,6 +96,8 @@ export default function Header({
         username={username}
         setUsername={setUsername}
         searchType={selectedRadioInput}
+        listIsLoading={listIsLoading}
+        setListIsLoading={setListIsLoading}
       />
     </StyledHeader>
   );

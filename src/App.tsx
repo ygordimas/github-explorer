@@ -20,11 +20,18 @@ const Content = styled.div`
   box-sizing: border-box;
 `;
 
+interface Repository {
+  name: string;
+  description: string;
+  url: string;
+}
+
 function App() {
   const [username, setUsername] = useState("");
   const [selectedRadioInput, setSelectedRadioInput] =
     useState("SearchingForUser");
   const [listIsLoading, setListIsLoading] = useState(true);
+  const [repositories, setRepositories] = useState<Repository[]>([]);
 
   return (
     <>
@@ -36,6 +43,8 @@ function App() {
         setSelectedRadioInput={setSelectedRadioInput}
         listIsLoading={listIsLoading}
         setListIsLoading={setListIsLoading}
+        repositories={repositories}
+        setRepositories={setRepositories}
       />
       <Content>
         {/* {username && selectedRadioInput === "SearchingForUser" ? (
@@ -51,6 +60,8 @@ function App() {
             searchType={selectedRadioInput}
             listIsLoading={listIsLoading}
             setListIsLoading={setListIsLoading}
+            repositories={repositories}
+            setRepositories={setRepositories}
           />
         ) : (
           <div>

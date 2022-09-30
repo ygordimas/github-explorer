@@ -69,12 +69,35 @@ const StyledButton = styled.button`
   }
 `;
 
+interface Repository {
+  name: string;
+  description: string;
+  url: string;
+}
+
+interface RepositoryListProps {
+  name: string;
+  searchType: string;
+  listIsLoading: boolean;
+  setListIsLoading: (value: boolean) => void;
+  repositories: Repository[];
+  setRepositories: React.Dispatch<React.SetStateAction<Repository[]>>;
+}
+
+interface Repository {
+  name: string;
+  description: string;
+  url: string;
+}
+
 interface SearchUserProps {
   username: string;
   setUsername: (arg: string) => void;
   searchType: string;
   listIsLoading: boolean;
   setListIsLoading: (value: boolean) => void;
+  repositories: Repository[];
+  setRepositories: React.Dispatch<React.SetStateAction<Repository[]>>;
 }
 
 export function SearchUser({
@@ -83,6 +106,8 @@ export function SearchUser({
   searchType,
   listIsLoading,
   setListIsLoading,
+  repositories,
+  setRepositories,
 }: SearchUserProps) {
   const [usernameInput, setUsernameInput] = useState("");
 
@@ -108,7 +133,8 @@ export function SearchUser({
         value={usernameInput}
         onChange={(event) => setUsernameInput(event.target.value)}
         onKeyDown={(event) => {
-          if (event.key === "Enter") {
+          if (event.key === "Enter" && username !== usernameInput) {
+            setRepositories([]);
             setUsername(usernameInput);
             setListIsLoading(true);
           }
@@ -117,8 +143,11 @@ export function SearchUser({
       <div>
         <StyledButton
           onClick={() => {
-            setUsername(usernameInput);
-            setListIsLoading(true);
+            if (username !== usernameInput) {
+              setRepositories([]);
+              setUsername(usernameInput);
+              setListIsLoading(true);
+            }
           }}
         >
           Search

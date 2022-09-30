@@ -36,6 +36,12 @@ const HeaderRadioLabel = styled.label`
   margin-left: 0.5rem;
 `;
 
+interface Repository {
+  name: string;
+  description: string;
+  url: string;
+}
+
 interface HeaderProps {
   username: string;
   setUsername: (value: string) => void;
@@ -43,6 +49,8 @@ interface HeaderProps {
   setSelectedRadioInput: (value: string) => void;
   listIsLoading: boolean;
   setListIsLoading: (value: boolean) => void;
+  repositories: Repository[];
+  setRepositories: React.Dispatch<React.SetStateAction<Repository[]>>;
 }
 
 export default function Header({
@@ -52,6 +60,8 @@ export default function Header({
   setSelectedRadioInput,
   listIsLoading,
   setListIsLoading,
+  repositories,
+  setRepositories,
 }: HeaderProps) {
   const isRadioSelected = (value: string): boolean =>
     selectedRadioInput === value;
@@ -98,6 +108,8 @@ export default function Header({
         searchType={selectedRadioInput}
         listIsLoading={listIsLoading}
         setListIsLoading={setListIsLoading}
+        repositories={repositories}
+        setRepositories={setRepositories}
       />
     </StyledHeader>
   );

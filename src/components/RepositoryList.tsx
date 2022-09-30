@@ -81,19 +81,19 @@ const ListButton = styled.button`
     background-color: ${darken(0.1, rootColors.primary)};
   }
 `;
+interface Repository {
+  name: string;
+  description: string;
+  url: string;
+}
 
 interface RepositoryListProps {
   name: string;
   searchType: string;
   listIsLoading: boolean;
   setListIsLoading: (value: boolean) => void;
-  // setRepositories: (value: string) => void;
-}
-
-interface Repository {
-  name: string;
-  description: string;
-  url: string;
+  repositories: Repository[];
+  setRepositories: React.Dispatch<React.SetStateAction<Repository[]>>;
 }
 
 export function RepositoryList({
@@ -101,22 +101,45 @@ export function RepositoryList({
   searchType,
   listIsLoading,
   setListIsLoading,
+  repositories,
+  setRepositories,
 }: // setRepositories,
 RepositoryListProps) {
-  const [repositories, setRepositories] = useState<Repository[]>([]);
   const [repoDirection, setRepoDirection] = useState("asc");
+  const [error, setError] = useState(null);
+  const [emptyResponse, setEmptyResponse] = useState(false);
 
   //collects API data from github based on condition (user | org)
   useEffect(() => {
-    setRepositories([]);
+    setError(null);
+    setEmptyResponse(false);
     if (searchType === "SearchingForUser") {
       fetch(
         `https://api.github.com/users/${name}/repos?sort=full_name&direction=${repoDirection}`
       )
-        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          if (!response.ok && response.status === 404) {
+            throw new Error(
+              `${
+                searchType === "SearchingForUser" ? "User" : "Organization"
+              } not found`
+            );
+          }
+          return response.json();
+        })
         .then((data) => {
           setRepositories(data);
           setListIsLoading(false);
+          if (data.length === 0) {
+            setEmptyResponse(true);
+          }
+        })
+        .catch((err) => {
+          setListIsLoading(false);
+          setRepositories([]);
+          setError(err.message);
+          console.log(err.message);
         });
     } else if (searchType === "SearchingForOrg") {
       fetch(
@@ -130,7 +153,7 @@ RepositoryListProps) {
     }
   }, [name, repoDirection]);
 
-  const ListRender = () => (
+  const List = () => (
     <ListContainer>
       <ListHeader>
         <h1>Repositories List</h1>
@@ -163,25 +186,26 @@ RepositoryListProps) {
     </ListContainer>
   );
 
-  const rendersList = () => {
-    if (Array.isArray(repositories) && repositories.length > 1) {
-      return <ListRender />;
-    } else if (listIsLoading === false) {
-      return (
-        <div>
-          We were unable to find an{" "}
-          {searchType === "SearchingForUser" ? "user" : "organization"} named '
-          {name}'.
-        </div>
-      );
-    }
-  };
+  // const rendersList = () => {
+  //   if (Array.isArray(repositories) && repositories.length > 1) {
+  //     return <List />;
+  //   } else if (listIsLoading === false) {
+  //     return (
+  //       <div>
+  //         We were unable to find an{" "}
+  //         {searchType === "SearchingForUser" ? "user" : "organization"} named '
+  //         {name}'.
+  //       </div>
+  //     );
+  //   }
+  // };
 
   return (
     <>
+      {error && <div>{error}</div>}
       {listIsLoading && <LoadingWarning />}
-
-      {rendersList()}
+      {emptyResponse && <div>Empty repository</div>}
+      {repositories.length > 1 && <List />}
 
       {/* {Array.isArray(repositories) ? (
         <ListContainer>

@@ -8,6 +8,19 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 1rem;
+
+  div {
+    display: flex;
+
+    @media screen and (max-width: 767px) {
+      margin-top: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const StyledInput = styled.input`
@@ -41,10 +54,18 @@ const StyledButton = styled.button`
 
   & + button {
     background-color: ${lighten(0.1, "#c8c8f0")};
+
+    @media screen and (max-width: 767px) {
+      margin-left: 0.5rem;
+    }
   }
 
   & + button:hover {
     background-color: ${lighten(0.2, "#c8c8f0")};
+  }
+
+  @media screen and (max-width: 767px) {
+    margin-left: 0;
   }
 `;
 
@@ -93,16 +114,18 @@ export function SearchUser({
           }
         }}
       />
-      <StyledButton
-        onClick={() => {
-          setUsername(usernameInput);
-          setListIsLoading(true);
-        }}
-      >
-        Search
-      </StyledButton>
+      <div>
+        <StyledButton
+          onClick={() => {
+            setUsername(usernameInput);
+            setListIsLoading(true);
+          }}
+        >
+          Search
+        </StyledButton>
 
-      <StyledButton onClick={() => handleClear()}>Clear</StyledButton>
+        <StyledButton onClick={() => handleClear()}>Clear</StyledButton>
+      </div>
     </Container>
   );
 }

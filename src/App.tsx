@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "./components/Header";
-import { Placeholder } from "./components/Placeholder";
-import OrgRepositoryList from "./components/OrgRepositoryList";
-import UserRepositoryList from "./components/UserRepositoryList";
 
 import styled from "styled-components";
 import { RepositoryList } from "./components/RepositoryList";
@@ -19,6 +16,8 @@ const Content = styled.div`
   padding: 1rem;
   border-radius: 1rem;
   margin: 0.5rem auto;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 `;
 
 function App() {

@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { LoadingWarning } from "./LoadingWarning";
 import RepositoryItem from "./RepositoryItem";
+import { DownArrowAlt } from "@styled-icons/boxicons-regular/DownArrowAlt";
+import { darken, lighten } from "polished";
+import { rootColors } from "../styles/GlobalStyles";
 
 const ListContainer = styled.div`
   width: 100%;
@@ -22,12 +25,6 @@ const ListSection = styled.section`
 
   ul {
     list-style: none;
-
-    li {
-      & + li {
-        margin-top: 20px;
-      }
-    }
 
     p {
       font-size: 14px;
@@ -54,8 +51,34 @@ const ListButton = styled.button`
   border: 0;
   cursor: pointer;
 
+  border-radius: 0.25rem;
+
   & + button {
     margin-left: 0.5rem;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      width: 3rem;
+    }
+  }
+
+  &:disabled {
+    border: 1px solid rgb(0, 0, 0, 0.25);
+    cursor: default;
+    background-color: ${lighten(0.1, "#c8c8f0")};
+  }
+
+  &:disabled:hover {
+    background-color: ${lighten(0.1, "#c8c8f0")};
+  }
+
+  &:hover {
+    background-color: ${darken(0.1, rootColors.primary)};
   }
 `;
 
@@ -112,11 +135,21 @@ RepositoryListProps) {
       <ListHeader>
         <h1>Repositories List</h1>
         <ListButtonsContainer>
-          <ListButton onClick={() => setRepoDirection("asc")}>
-            A &#8212; Z
+          <ListButton
+            disabled={repoDirection === "asc"}
+            onClick={() => setRepoDirection("asc")}
+          >
+            <div>
+              <DownArrowAlt size={"1rem"} /> <p>A &#8212; Z</p>
+            </div>
           </ListButton>
-          <ListButton onClick={() => setRepoDirection("desc")}>
-            Z &#8212; A
+          <ListButton
+            disabled={repoDirection === "desc"}
+            onClick={() => setRepoDirection("desc")}
+          >
+            <div>
+              <DownArrowAlt size={"1rem"} /> <p>Z &#8212; A</p>
+            </div>
           </ListButton>
         </ListButtonsContainer>
       </ListHeader>
@@ -133,6 +166,14 @@ RepositoryListProps) {
   const rendersList = () => {
     if (Array.isArray(repositories) && repositories.length > 1) {
       return <ListRender />;
+    } else if (listIsLoading === false) {
+      return (
+        <div>
+          We were unable to find an{" "}
+          {searchType === "SearchingForUser" ? "user" : "organization"} named '
+          {name}'.
+        </div>
+      );
     }
   };
 

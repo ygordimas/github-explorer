@@ -15,6 +15,11 @@ const StyledInput = styled.input`
   height: 3rem;
   /* max-width: 400px; */
   padding: 0 0.5rem;
+
+  &:focus {
+    outline: 2px solid lightblue;
+    border: 1px solid lightblue;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -27,7 +32,7 @@ const StyledButton = styled.button`
   border: 0;
   cursor: pointer;
   background-color: #c8c8f0;
-
+  border-radius: 0.25rem;
   transition: background-color 0.2s;
 
   &:hover {

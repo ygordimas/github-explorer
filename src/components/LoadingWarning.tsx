@@ -1,7 +1,6 @@
-import React from "react";
 import { Loader } from "@styled-icons/boxicons-regular/Loader";
 import styled from "styled-components";
-import { darken, lighten, transparentize } from "polished";
+import { transparentize } from "polished";
 import { rootColors } from "../styles/GlobalStyles";
 
 const StyledLoader = styled(Loader)`

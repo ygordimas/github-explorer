@@ -118,13 +118,8 @@ RepositoryListProps) {
         `https://api.github.com/users/${name}/repos?sort=full_name&direction=${repoDirection}`
       )
         .then((response) => {
-          console.log(response);
           if (!response.ok && response.status === 404) {
-            throw new Error(
-              `${
-                searchType === "SearchingForUser" ? "User" : "Organization"
-              } not found`
-            );
+            throw new Error(`User not found`);
           }
           return response.json();
         })
@@ -139,16 +134,28 @@ RepositoryListProps) {
           setListIsLoading(false);
           setRepositories([]);
           setError(err.message);
-          console.log(err.message);
         });
     } else if (searchType === "SearchingForOrg") {
       fetch(
         `https://api.github.com/orgs/${name}/repos?sort=full_name&direction=${repoDirection}`
       )
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok && response.status === 404) {
+            throw new Error(`Organization not found.`);
+          }
+          return response.json();
+        })
         .then((data) => {
           setRepositories(data);
           setListIsLoading(false);
+          if (data.length === 0) {
+            setEmptyResponse(true);
+          }
+        })
+        .catch((err) => {
+          setListIsLoading(false);
+          setRepositories([]);
+          setError(err.message);
         });
     }
   }, [name, repoDirection]);

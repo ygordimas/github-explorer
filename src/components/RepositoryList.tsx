@@ -193,26 +193,12 @@ RepositoryListProps) {
     </ListContainer>
   );
 
-  // const rendersList = () => {
-  //   if (Array.isArray(repositories) && repositories.length > 1) {
-  //     return <List />;
-  //   } else if (listIsLoading === false) {
-  //     return (
-  //       <div>
-  //         We were unable to find an{" "}
-  //         {searchType === "SearchingForUser" ? "user" : "organization"} named '
-  //         {name}'.
-  //       </div>
-  //     );
-  //   }
-  // };
-
   return (
     <>
       {error && <div>{error}</div>}
       {listIsLoading && <LoadingWarning />}
       {emptyResponse && <div>Empty repository</div>}
-      {repositories.length > 1 && <List />}
+      {repositories.length >= 1 && <List />}
 
       {/* {Array.isArray(repositories) ? (
         <ListContainer>

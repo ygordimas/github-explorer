@@ -197,7 +197,12 @@ RepositoryListProps) {
     <>
       {error && <div>{error}</div>}
       {listIsLoading && <LoadingWarning />}
-      {emptyResponse && <div>Empty repository</div>}
+      {emptyResponse && (
+        <div>
+          {searchType === "SearchingForUser" ? "User" : "Organization"} exists,
+          but no public repositories available for showing.
+        </div>
+      )}
       {repositories.length >= 1 && <List />}
 
       {/* {Array.isArray(repositories) ? (
